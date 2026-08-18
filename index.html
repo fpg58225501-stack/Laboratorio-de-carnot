@@ -1,1394 +1,743 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Laboratório de Carnot</title>
-
-<style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f4f6f8;
-    color:#222;
-}
-
-header{
-    background:#7b1113;
-    color:white;
-    padding:18px 25px;
-    text-align:center;
-    box-shadow:0 3px 10px rgba(0,0,0,.20);
-}
-
-header h1{
-    margin:0;
-    font-size:30px;
-}
-
-.autor{
-    margin-top:5px;
-    font-size:14px;
-    opacity:.9;
-}
-
-.container{
-    width:95%;
-    max-width:1250px;
-    margin:25px auto;
-}
-
-.laboratorio{
-    display:grid;
-    grid-template-columns:1fr 1.25fr;
-    gap:25px;
-}
-
-.card{
-    background:white;
-    border-radius:14px;
-    padding:20px;
-    box-shadow:0 4px 16px rgba(0,0,0,.12);
-}
-
-.card h2{
-    text-align:center;
-    color:#7b1113;
-    margin-top:0;
-}
-
-/* ==========================
-   PISTÃO
-========================== */
-
-.area-pistao{
-    height:430px;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.cilindro{
-    width:220px;
-    height:360px;
-    border:6px solid #555;
-    border-top:none;
-    position:relative;
-    background:#fafafa;
-    overflow:hidden;
-}
-
-.gas{
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:180px;
-    background:linear-gradient(
-        rgba(255,110,70,.80),
-        rgba(255,210,80,.55)
-    );
-    transition:background .2s;
-}
-
-.particulas{
-    position:absolute;
-    inset:0;
-}
-
-.particula{
-    width:7px;
-    height:7px;
-    background:#b5161b;
-    border-radius:50%;
-    position:absolute;
-}
-
-/* pistão */
-
-.pistao{
-    position:absolute;
-    width:208px;
-    height:26px;
-    background:linear-gradient(#999,#555);
-    left:0;
-    top:180px;
-    cursor:ns-resize;
-    z-index:5;
-}
-
-.haste{
-    position:absolute;
-    width:24px;
-    height:130px;
-    background:#777;
-    left:92px;
-    bottom:20px;
-    transform:translateY(100%);
-}
-
-.alca{
-    position:absolute;
-    width:85px;
-    height:22px;
-    border-radius:10px;
-    background:#555;
-    left:-30px;
-    bottom:-125px;
-}
-
-.fonte{
-    position:absolute;
-    top:-5px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:8px 15px;
-    border-radius:10px;
-    color:white;
-    font-weight:bold;
-    background:#d9362b;
-}
-
-.indicadorMovimento{
-    position:absolute;
-    right:-125px;
-    top:150px;
-    text-align:center;
-    font-size:15px;
-    font-weight:bold;
-}
-
-.seta{
-    font-size:46px;
-}
-
-/* ==========================
-   GRÁFICO
-========================== */
-
-canvas{
-    width:100%;
-    height:430px;
-    display:block;
-}
-
-/* ==========================
-   DADOS
-========================== */
-
-.dados{
-    margin-top:25px;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:12px;
-}
-
-.dado{
-    background:white;
-    padding:15px 8px;
-    text-align:center;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.dado .titulo{
-    font-size:13px;
-    color:#666;
-}
-
-.dado .valor{
-    margin-top:5px;
-    font-size:19px;
-    font-weight:bold;
-    color:#7b1113;
-}
-
-/* ==========================
-   ETAPA
-========================== */
-
-.etapa{
-    margin-top:20px;
-    padding:18px;
-    background:white;
-    border-radius:12px;
-    border-left:7px solid #7b1113;
-    box-shadow:0 2px 9px rgba(0,0,0,.1);
-}
-
-.etapa h3{
-    color:#7b1113;
-    margin-top:0;
-}
-
-/* ==========================
-   CONTROLE
-========================== */
-
-.controles{
-    margin-top:18px;
-    background:white;
-    border-radius:12px;
-    padding:18px;
-    box-shadow:0 2px 9px rgba(0,0,0,.1);
-}
-
-.controles label{
-    font-weight:bold;
-}
-
-input[type=range]{
-    width:100%;
-    margin-top:12px;
-}
-
-.botoes{
-    text-align:center;
-    margin-top:15px;
-}
-
-button{
-    background:#7b1113;
-    color:white;
-    border:none;
-    padding:11px 20px;
-    margin:4px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#a3181c;
-}
-
-/* ==========================
-   MOBILE
-========================== */
-
-@media(max-width:850px){
-
-    .laboratorio{
-        grid-template-columns:1fr;
-    }
-
-    .dados{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    header h1{
-        font-size:24px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>LABORATÓRIO DE CARNOT</h1>
-<div class="autor">Desenvolvido por Fabrizio Porfirio</div>
-</header>
-
-<div class="container">
-
-<div class="laboratorio">
-
-<!-- =================================
-     PISTÃO
-================================= -->
-
-<div class="card">
-
-<h2>Máquina Térmica</h2>
-
-<div class="area-pistao">
-
-<div>
-
-<div class="fonte" id="fonte">
-🔥 Fonte quente
-</div>
-
-<div class="cilindro" id="cilindro">
-
-<div class="gas" id="gas">
-<div class="particulas" id="particulas"></div>
-</div>
-
-<div class="pistao" id="pistao">
-<div class="haste">
-<div class="alca"></div>
-</div>
-</div>
-
-</div>
-
-<div class="indicadorMovimento">
-<div id="textoMovimento">EXPANSÃO</div>
-<div class="seta" id="setaMovimento">↓</div>
-</div>
-
-</div>
-
-</div>
-
-<p style="text-align:center;color:#666;">
-Arraste o pistão ou utilize o controle abaixo.
-</p>
-
-</div>
-
-<!-- =================================
-     GRÁFICO
-================================= -->
-
-<div class="card">
-
-<h2>Diagrama Pressão × Volume</h2>
-
-<canvas id="grafico"></canvas>
-
-</div>
-
-</div>
-
-<!-- =================================
-     DADOS
-================================= -->
-
-<div class="dados">
-
-<div class="dado">
-<div class="titulo">Estado</div>
-<div class="valor" id="estado">A</div>
-</div>
-
-<div class="dado">
-<div class="titulo">Volume</div>
-<div class="valor" id="volume">2.0 L</div>
-</div>
-
-<div class="dado">
-<div class="titulo">Pressão</div>
-<div class="valor" id="pressao">4.0 atm</div>
-</div>
-
-<div class="dado">
-<div class="titulo">Temperatura</div>
-<div class="valor" id="temperatura">500 K</div>
-</div>
-
-<div class="dado">
-<div class="titulo">Calor</div>
-<div class="valor" id="calor">+Q</div>
-</div>
-
-</div>
-
-<!-- =================================
-     EXPLICAÇÃO
-================================= -->
-
-<div class="etapa">
-
-<h3 id="nomeEtapa">
-A → B — Expansão isotérmica
-</h3>
-
-<div id="descricaoEtapa">
-
-O gás recebe calor da fonte quente e se expande mantendo
-a temperatura constante. Na representação utilizada,
-o aumento do volume faz o pistão descer.
-
-</div>
-
-</div>
-
-<!-- =================================
-     CONTROLE
-================================= -->
-
-<div class="controles">
-
-<label>
-Percorrer o ciclo de Carnot
-</label>
-
-<input
-type="range"
-id="controle"
-min="0"
-max="400"
-value="0"
->
-
-<div class="botoes">
-
-<button onclick="iniciarAnimacao()">
-▶ Iniciar ciclo
-</button>
-
-<button onclick="pausarAnimacao()">
-⏸ Pausar
-</button>
-
-<button onclick="reiniciar()">
-↻ Reiniciar
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 <script>
-
-/* ======================================
-   ELEMENTOS
-====================================== */
-
 const canvas = document.getElementById("grafico");
 const ctx = canvas.getContext("2d");
 
-const controle =
-document.getElementById("controle");
+const controle = document.getElementById("controle");
 
-const pistao =
-document.getElementById("pistao");
+const pistao = document.getElementById("pistao");
+const gas = document.getElementById("gas");
 
-const gas =
-document.getElementById("gas");
+const fonte = document.getElementById("fonte");
 
-const fonte =
-document.getElementById("fonte");
+const estado = document.getElementById("estado");
+const volumeTexto = document.getElementById("volume");
+const pressaoTexto = document.getElementById("pressao");
+const temperaturaTexto = document.getElementById("temperatura");
+const calorTexto = document.getElementById("calor");
 
-const estado =
-document.getElementById("estado");
+const nomeEtapa = document.getElementById("nomeEtapa");
+const descricaoEtapa = document.getElementById("descricaoEtapa");
 
-const volumeTexto =
-document.getElementById("volume");
+const textoMovimento = document.getElementById("textoMovimento");
+const setaMovimento = document.getElementById("setaMovimento");
 
-const pressaoTexto =
-document.getElementById("pressao");
+/* =========================
+   ESTADOS DO CICLO
+========================= */
 
-const temperaturaTexto =
-document.getElementById("temperatura");
-
-const calorTexto =
-document.getElementById("calor");
-
-const nomeEtapa =
-document.getElementById("nomeEtapa");
-
-const descricaoEtapa =
-document.getElementById("descricaoEtapa");
-
-const textoMovimento =
-document.getElementById("textoMovimento");
-
-const setaMovimento =
-document.getElementById("setaMovimento");
-
-
-/* ======================================
-   AJUSTE DO CANVAS
-====================================== */
-
-function ajustarCanvas(){
-
-const rect = canvas.getBoundingClientRect();
-
-canvas.width =
-rect.width * devicePixelRatio;
-
-canvas.height =
-rect.height * devicePixelRatio;
-
-ctx.setTransform(
-devicePixelRatio,
-0,
-0,
-devicePixelRatio,
-0,
-0
-);
-
-desenhar();
-
-}
-
-window.addEventListener(
-"resize",
-ajustarCanvas
-);
-
-
-/* ======================================
-   PONTOS DO CICLO
-
-   Valores escolhidos para fins didáticos.
-====================================== */
-
-const A = {V:2.0,P:4.0};
-const B = {V:4.0,P:2.0};
-
-const C = {V:5.5,P:0.95};
-const D = {V:2.75,P:1.9};
-
-
-/* ======================================
-   CURVAS
-
-   A-B e C-D são isotérmicas:
-   PV = constante
-
-   B-C e D-A são aproximações
-   adiabáticas:
-   PV^gamma = constante
-====================================== */
+const A = {V:2.0, P:4.2};
+const B = {V:4.3, P:2.25};
+const C = {V:5.6, P:0.80};
+const D = {V:2.85, P:1.70};
 
 const gamma = 1.4;
 
-function interpolar(a,b,t){
+/* =========================
+   INTERPOLAÇÃO
+========================= */
 
-return a+(b-a)*t;
-
+function lerp(a,b,t){
+    return a+(b-a)*t;
 }
+
+/* =========================
+   CICLO
+========================= */
 
 function pontoCiclo(progresso){
 
-let etapa =
-Math.floor(progresso/100);
+    let etapa = Math.floor(progresso/100);
+    let t = (progresso % 100)/100;
 
-let t =
-(progresso%100)/100;
+    if(progresso >= 400){
+        etapa = 3;
+        t = 1;
+    }
 
-if(progresso>=400){
-etapa=3;
-t=1;
+    /* A → B
+       Expansão isotérmica */
+    if(etapa === 0){
+
+        let V = lerp(A.V,B.V,t);
+
+        const k = A.P*A.V;
+
+        return{
+            V,
+            P:k/V,
+            T:500,
+            etapa:0
+        };
+    }
+
+    /* B → C
+       Expansão adiabática */
+    if(etapa === 1){
+
+        let V = lerp(B.V,C.V,t);
+
+        const k =
+            B.P*Math.pow(B.V,gamma);
+
+        let P =
+            k/Math.pow(V,gamma);
+
+        return{
+            V,
+            P,
+            T:500-200*t,
+            etapa:1
+        };
+    }
+
+    /* C → D
+       Compressão isotérmica */
+    if(etapa === 2){
+
+        let V = lerp(C.V,D.V,t);
+
+        const k = C.P*C.V;
+
+        return{
+            V,
+            P:k/V,
+            T:300,
+            etapa:2
+        };
+    }
+
+    /* D → A
+       Compressão adiabática */
+
+    let V = lerp(D.V,A.V,t);
+
+    const k =
+        D.P*Math.pow(D.V,gamma);
+
+    let P =
+        k/Math.pow(V,gamma);
+
+    return{
+        V,
+        P,
+        T:300+200*t,
+        etapa:3
+    };
 }
 
+/* =========================
+   CONVERSÃO P/V → TELA
+========================= */
 
-/* A → B */
+function coord(V,P){
 
-if(etapa===0){
+    const largura =
+        canvas.clientWidth;
 
-let V =
-interpolar(A.V,B.V,t);
+    const altura =
+        canvas.clientHeight;
 
-let K =
-A.P*A.V;
+    const left = 80;
+    const right = 35;
+    const top = 30;
+    const bottom = 65;
 
-return{
-V:V,
-P:K/V,
-T:500,
-etapa:0
-};
+    const Vmin = 1.5;
+    const Vmax = 6.1;
 
+    const Pmin = 0;
+    const Pmax = 4.7;
+
+    return{
+
+        x:
+        left+
+        (V-Vmin)/(Vmax-Vmin)*
+        (largura-left-right),
+
+        y:
+        altura-bottom-
+        (P-Pmin)/(Pmax-Pmin)*
+        (altura-top-bottom)
+
+    };
 }
 
-
-/* B → C */
-
-if(etapa===1){
-
-let V =
-interpolar(B.V,C.V,t);
-
-let K =
-B.P*Math.pow(B.V,gamma);
-
-let P =
-K/Math.pow(V,gamma);
-
-let T =
-500-(200*t);
-
-return{
-V:V,
-P:P,
-T:T,
-etapa:1
-};
-
-}
-
-
-/* C → D */
-
-if(etapa===2){
-
-let V =
-interpolar(C.V,D.V,t);
-
-let K =
-C.P*C.V;
-
-return{
-V:V,
-P:K/V,
-T:300,
-etapa:2
-};
-
-}
-
-
-/* D → A */
-
-let V =
-interpolar(D.V,A.V,t);
-
-let K =
-D.P*Math.pow(D.V,gamma);
-
-let P =
-K/Math.pow(V,gamma);
-
-let T =
-300+(200*t);
-
-return{
-V:V,
-P:P,
-T:T,
-etapa:3
-};
-
-}
-
-
-/* ======================================
-   TRANSFORMAÇÃO PARA O CANVAS
-====================================== */
-
-function coordenada(V,P){
-
-const largura =
-canvas.clientWidth;
-
-const altura =
-canvas.clientHeight;
-
-const margemE = 65;
-const margemD = 30;
-const margemC = 35;
-const margemB = 55;
-
-const Vmin=1.5;
-const Vmax=6;
-
-const Pmin=0;
-const Pmax=4.7;
-
-const x =
-margemE+
-(V-Vmin)/(Vmax-Vmin)*
-(largura-margemE-margemD);
-
-const y =
-altura-margemB-
-(P-Pmin)/(Pmax-Pmin)*
-(altura-margemC-margemB);
-
-return{x,y};
-
-}
-
-
-/* ======================================
-   DESENHAR GRÁFICO
-====================================== */
+/* =========================
+   DESENHO
+========================= */
 
 function desenhar(){
 
-const largura =
-canvas.clientWidth;
+    const largura =
+        canvas.clientWidth;
 
-const altura =
-canvas.clientHeight;
+    const altura =
+        canvas.clientHeight;
 
-ctx.clearRect(
-0,0,largura,altura
-);
+    ctx.clearRect(
+        0,
+        0,
+        largura,
+        altura
+    );
 
+    /* EIXOS */
 
-/* eixos */
+    ctx.strokeStyle="#111";
+    ctx.lineWidth=2;
 
-ctx.strokeStyle="#333";
-ctx.lineWidth=2;
+    ctx.beginPath();
 
-ctx.beginPath();
+    ctx.moveTo(65,25);
+    ctx.lineTo(65,altura-55);
+    ctx.lineTo(largura-20,altura-55);
 
-ctx.moveTo(60,25);
-ctx.lineTo(60,altura-50);
-ctx.lineTo(largura-20,altura-50);
+    ctx.stroke();
 
-ctx.stroke();
+    /* SETA DO EIXO P */
 
+    ctx.beginPath();
 
-/* nomes dos eixos */
+    ctx.moveTo(65,25);
+    ctx.lineTo(59,38);
 
-ctx.fillStyle="#222";
-ctx.font="bold 16px Arial";
+    ctx.moveTo(65,25);
+    ctx.lineTo(71,38);
 
-ctx.fillText(
-"P",
-30,
-30
-);
+    ctx.stroke();
 
-ctx.fillText(
-"V",
-largura-30,
-altura-20
-);
+    /* SETA DO EIXO V */
 
+    ctx.beginPath();
 
-/* grades */
+    ctx.moveTo(largura-20,altura-55);
+    ctx.lineTo(largura-33,altura-61);
 
-ctx.strokeStyle="#ddd";
-ctx.lineWidth=1;
+    ctx.moveTo(largura-20,altura-55);
+    ctx.lineTo(largura-33,altura-49);
 
-for(let p=1;p<=4;p++){
+    ctx.stroke();
 
-const c =
-coordenada(1.5,p);
+    ctx.fillStyle="#111";
+    ctx.font="bold 17px Arial";
 
-ctx.beginPath();
-ctx.moveTo(60,c.y);
-ctx.lineTo(largura-20,c.y);
-ctx.stroke();
+    ctx.fillText("P",38,32);
+    ctx.fillText("V",largura-30,altura-27);
 
-ctx.fillStyle="#666";
-ctx.font="12px Arial";
+    /* ========================
+       LINHAS PONTILHADAS
+    ======================== */
 
-ctx.fillText(
-p+" atm",
-8,
-c.y+4
-);
+    const pontos = {
+        A:coord(A.V,A.P),
+        B:coord(B.V,B.P),
+        C:coord(C.V,C.P),
+        D:coord(D.V,D.P)
+    };
 
+    ctx.setLineDash([3,4]);
+
+    ctx.strokeStyle="#888";
+    ctx.lineWidth=1;
+
+    Object.values(pontos).forEach(p=>{
+
+        ctx.beginPath();
+
+        ctx.moveTo(65,p.y);
+        ctx.lineTo(p.x,p.y);
+
+        ctx.stroke();
+
+        ctx.beginPath();
+
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x,altura-55);
+
+        ctx.stroke();
+
+    });
+
+    ctx.setLineDash([]);
+
+    /* ========================
+       CURVA A → B
+       ISOTÉRMICA QUENTE
+    ======================== */
+
+    ctx.strokeStyle="#d33";
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    for(let i=0;i<=100;i++){
+
+        const p=pontoCiclo(i);
+
+        const c=coord(p.V,p.P);
+
+        if(i===0)
+            ctx.moveTo(c.x,c.y);
+        else
+            ctx.lineTo(c.x,c.y);
+    }
+
+    ctx.stroke();
+
+    /* ========================
+       B → C
+       ADIABÁTICA
+    ======================== */
+
+    ctx.strokeStyle="#3557b7";
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    for(let i=100;i<=200;i++){
+
+        const p=pontoCiclo(i);
+
+        const c=coord(p.V,p.P);
+
+        if(i===100)
+            ctx.moveTo(c.x,c.y);
+        else
+            ctx.lineTo(c.x,c.y);
+    }
+
+    ctx.stroke();
+
+    /* ========================
+       C → D
+       ISOTÉRMICA FRIA
+    ======================== */
+
+    ctx.strokeStyle="#d33";
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    for(let i=200;i<=300;i++){
+
+        const p=pontoCiclo(i);
+
+        const c=coord(p.V,p.P);
+
+        if(i===200)
+            ctx.moveTo(c.x,c.y);
+        else
+            ctx.lineTo(c.x,c.y);
+    }
+
+    ctx.stroke();
+
+    /* ========================
+       D → A
+       ADIABÁTICA
+    ======================== */
+
+    ctx.strokeStyle="#3557b7";
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    for(let i=300;i<=400;i++){
+
+        const p=pontoCiclo(i);
+
+        const c=coord(p.V,p.P);
+
+        if(i===300)
+            ctx.moveTo(c.x,c.y);
+        else
+            ctx.lineTo(c.x,c.y);
+    }
+
+    ctx.stroke();
+
+    /* ========================
+       PONTOS
+    ======================== */
+
+    const lista = [
+        ["A",A],
+        ["B",B],
+        ["C",C],
+        ["D",D]
+    ];
+
+    lista.forEach(([nome,p])=>{
+
+        const c=coord(p.V,p.P);
+
+        ctx.beginPath();
+
+        ctx.arc(
+            c.x,
+            c.y,
+            5,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle="#111";
+        ctx.fill();
+
+        ctx.font="bold 15px Arial";
+
+        ctx.fillText(
+            nome,
+            c.x-5,
+            c.y-12
+        );
+    });
+
+    /* ========================
+       MARCAÇÕES DAS PRESSÕES
+    ======================== */
+
+    ctx.font="13px Arial";
+    ctx.fillStyle="#333";
+
+    ctx.fillText(
+        "Pₐ",
+        38,
+        pontos.A.y+4
+    );
+
+    ctx.fillText(
+        "Pᵦ",
+        38,
+        pontos.B.y+4
+    );
+
+    ctx.fillText(
+        "Pᴅ",
+        38,
+        pontos.D.y+4
+    );
+
+    ctx.fillText(
+        "Pᴄ",
+        38,
+        pontos.C.y+4
+    );
+
+    /* ========================
+       MARCAÇÕES DOS VOLUMES
+    ======================== */
+
+    ctx.fillText(
+        "Vₐ",
+        pontos.A.x-10,
+        altura-33
+    );
+
+    ctx.fillText(
+        "Vᴅ",
+        pontos.D.x-10,
+        altura-33
+    );
+
+    ctx.fillText(
+        "Vᵦ",
+        pontos.B.x-10,
+        altura-33
+    );
+
+    ctx.fillText(
+        "Vᴄ",
+        pontos.C.x-10,
+        altura-33
+    );
+
+    /* ========================
+       TQ / TF
+    ======================== */
+
+    ctx.fillStyle="#d33";
+    ctx.font="italic bold 16px Arial";
+
+    const tq=coord(3.2,3.15);
+
+    ctx.fillText(
+        "TQ",
+        tq.x,
+        tq.y
+    );
+
+    const tf=coord(3.8,1.15);
+
+    ctx.fillText(
+        "TF",
+        tf.x,
+        tf.y
+    );
+
+    /* ========================
+       PONTO MÓVEL
+    ======================== */
+
+    const atual =
+        pontoCiclo(
+            Number(controle.value)
+        );
+
+    const cm =
+        coord(
+            atual.V,
+            atual.P
+        );
+
+    ctx.beginPath();
+
+    ctx.arc(
+        cm.x,
+        cm.y,
+        8,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fillStyle="#ff9800";
+    ctx.fill();
+
+    ctx.strokeStyle="#111";
+    ctx.lineWidth=2;
+    ctx.stroke();
 }
 
-
-for(let v=2;v<=6;v++){
-
-const c =
-coordenada(v,0);
-
-ctx.beginPath();
-ctx.moveTo(c.x,25);
-ctx.lineTo(c.x,altura-50);
-ctx.stroke();
-
-ctx.fillStyle="#666";
-
-ctx.fillText(
-v+" L",
-c.x-10,
-altura-30
-);
-
-}
-
-
-/* curva inteira */
-
-ctx.strokeStyle="#991b1e";
-ctx.lineWidth=3;
-
-ctx.beginPath();
-
-for(let i=0;i<=400;i++){
-
-const p =
-pontoCiclo(i);
-
-const c =
-coordenada(p.V,p.P);
-
-if(i===0)
-ctx.moveTo(c.x,c.y);
-else
-ctx.lineTo(c.x,c.y);
-
-}
-
-ctx.stroke();
-
-
-/* preencher área */
-
-ctx.globalAlpha=.08;
-ctx.fillStyle="#991b1e";
-
-ctx.beginPath();
-
-for(let i=0;i<=400;i++){
-
-const p =
-pontoCiclo(i);
-
-const c =
-coordenada(p.V,p.P);
-
-if(i===0)
-ctx.moveTo(c.x,c.y);
-else
-ctx.lineTo(c.x,c.y);
-
-}
-
-ctx.closePath();
-ctx.fill();
-
-ctx.globalAlpha=1;
-
-
-/* pontos A B C D */
-
-const pontos = [
-["A",A],
-["B",B],
-["C",C],
-["D",D]
-];
-
-pontos.forEach(([nome,p])=>{
-
-const c =
-coordenada(p.V,p.P);
-
-ctx.beginPath();
-
-ctx.arc(
-c.x,
-c.y,
-6,
-0,
-Math.PI*2
-);
-
-ctx.fillStyle="#222";
-ctx.fill();
-
-ctx.font="bold 15px Arial";
-
-ctx.fillText(
-nome,
-c.x+10,
-c.y-8
-);
-
-});
-
-
-/* ponto móvel */
-
-const atual =
-pontoCiclo(
-Number(controle.value)
-);
-
-const c =
-coordenada(
-atual.V,
-atual.P
-);
-
-ctx.beginPath();
-
-ctx.arc(
-c.x,
-c.y,
-9,
-0,
-Math.PI*2
-);
-
-ctx.fillStyle="#e33131";
-ctx.fill();
-
-ctx.beginPath();
-
-ctx.arc(
-c.x,
-c.y,
-14,
-0,
-Math.PI*2
-);
-
-ctx.strokeStyle="#e33131";
-ctx.lineWidth=2;
-
-ctx.stroke();
-
-}
-
-
-/* ======================================
-   ATUALIZAR PISTÃO
-====================================== */
+/* =========================
+   PISTÃO
+========================= */
 
 function atualizarPistao(p){
 
-/*
-Quanto maior V,
-mais para baixo fica o pistão.
-*/
+    const Vmin=2;
+    const Vmax=5.6;
 
-const Vmin=2;
-const Vmax=5.5;
+    let pos =
+        90+
+        (p.V-Vmin)/
+        (Vmax-Vmin)*
+        190;
 
-let pos =
-90+
-(p.V-Vmin)/(Vmax-Vmin)*190;
+    pistao.style.top=
+        pos+"px";
 
-pistao.style.top =
-pos+"px";
-
-gas.style.height =
-pos+"px";
-
-
-/* cor do gás */
-
-const intensidade =
-(p.T-300)/200;
-
-const vermelho =
-Math.round(
-190+65*intensidade
-);
-
-const verde =
-Math.round(
-210-80*intensidade
-);
-
-gas.style.background =
-`linear-gradient(
-rgba(${vermelho},${verde},60,.8),
-rgba(255,220,90,.4)
-)`;
-
+    gas.style.height=
+        pos+"px";
 }
 
-
-/* ======================================
-   INFORMAÇÕES
-====================================== */
+/* =========================
+   TEXTO
+========================= */
 
 function atualizar(){
 
-const p =
-pontoCiclo(
-Number(controle.value)
-);
+    const p =
+        pontoCiclo(
+            Number(controle.value)
+        );
 
-atualizarPistao(p);
+    atualizarPistao(p);
 
-volumeTexto.textContent =
-p.V.toFixed(2)+" L";
+    volumeTexto.textContent =
+        p.V.toFixed(2)+" L";
 
-pressaoTexto.textContent =
-p.P.toFixed(2)+" atm";
+    pressaoTexto.textContent =
+        p.P.toFixed(2)+" atm";
 
-temperaturaTexto.textContent =
-Math.round(p.T)+" K";
+    temperaturaTexto.textContent =
+        Math.round(p.T)+" K";
 
+    if(p.etapa===0){
 
-if(p.etapa===0){
+        estado.textContent="A → B";
+        calorTexto.textContent="+Q₍Q₎";
 
-estado.textContent="A → B";
+        fonte.textContent=
+            "🔥 Fonte quente";
 
-calorTexto.textContent="+Q₍Q₎";
+        fonte.style.background=
+            "#d9362b";
 
-fonte.innerHTML=
-"🔥 Fonte quente";
+        textoMovimento.textContent=
+            "EXPANSÃO";
 
-fonte.style.background=
-"#d9362b";
+        setaMovimento.textContent=
+            "↓";
 
-textoMovimento.textContent=
-"EXPANSÃO";
+        nomeEtapa.textContent=
+            "A → B — Expansão isotérmica";
 
-setaMovimento.textContent=
-"↓";
+        descricaoEtapa.innerHTML=
+            "O gás recebe calor da fonte quente e se expande mantendo a temperatura constante.";
+    }
 
-nomeEtapa.textContent=
-"A → B — Expansão isotérmica";
+    if(p.etapa===1){
 
-descricaoEtapa.innerHTML=
-"O gás recebe calor da <b>fonte quente</b> e se expande. "
-+"A temperatura permanece constante. "
-+"Como o volume aumenta, o pistão <b>desce</b>.";
+        estado.textContent="B → C";
+        calorTexto.textContent="Q = 0";
 
+        fonte.textContent=
+            "Sem troca de calor";
+
+        fonte.style.background=
+            "#555";
+
+        textoMovimento.textContent=
+            "EXPANSÃO";
+
+        setaMovimento.textContent=
+            "↓";
+
+        nomeEtapa.textContent=
+            "B → C — Expansão adiabática";
+
+        descricaoEtapa.innerHTML=
+            "O gás continua se expandindo sem trocar calor. Sua temperatura diminui.";
+    }
+
+    if(p.etapa===2){
+
+        estado.textContent="C → D";
+        calorTexto.textContent="−Q₍F₎";
+
+        fonte.textContent=
+            "❄ Fonte fria";
+
+        fonte.style.background=
+            "#2774ae";
+
+        textoMovimento.textContent=
+            "COMPRESSÃO";
+
+        setaMovimento.textContent=
+            "↑";
+
+        nomeEtapa.textContent=
+            "C → D — Compressão isotérmica";
+
+        descricaoEtapa.innerHTML=
+            "O gás é comprimido e libera calor para a fonte fria.";
+    }
+
+    if(p.etapa===3){
+
+        estado.textContent="D → A";
+        calorTexto.textContent="Q = 0";
+
+        fonte.textContent=
+            "Sem troca de calor";
+
+        fonte.style.background=
+            "#555";
+
+        textoMovimento.textContent=
+            "COMPRESSÃO";
+
+        setaMovimento.textContent=
+            "↑";
+
+        nomeEtapa.textContent=
+            "D → A — Compressão adiabática";
+
+        descricaoEtapa.innerHTML=
+            "O gás é comprimido sem trocar calor e sua temperatura aumenta.";
+    }
+
+    desenhar();
 }
 
-
-if(p.etapa===1){
-
-estado.textContent="B → C";
-
-calorTexto.textContent="Q = 0";
-
-fonte.innerHTML=
-"🚫 Sem troca de calor";
-
-fonte.style.background=
-"#555";
-
-textoMovimento.textContent=
-"EXPANSÃO";
-
-setaMovimento.textContent=
-"↓";
-
-nomeEtapa.textContent=
-"B → C — Expansão adiabática";
-
-descricaoEtapa.innerHTML=
-"O gás continua se expandindo, porém agora "
-+"<b>não troca calor</b> com o ambiente. "
-+"Ele realiza trabalho às custas de sua energia interna "
-+"e sua temperatura diminui.";
-
-}
-
-
-if(p.etapa===2){
-
-estado.textContent="C → D";
-
-calorTexto.textContent="−Q₍F₎";
-
-fonte.innerHTML=
-"❄ Fonte fria";
-
-fonte.style.background=
-"#2774ae";
-
-textoMovimento.textContent=
-"COMPRESSÃO";
-
-setaMovimento.textContent=
-"↑";
-
-nomeEtapa.textContent=
-"C → D — Compressão isotérmica";
-
-descricaoEtapa.innerHTML=
-"O gás é comprimido enquanto permanece em contato "
-+"com a <b>fonte fria</b>. "
-+"Ele rejeita calor para o reservatório frio, "
-+"mantendo a temperatura constante.";
-
-}
-
-
-if(p.etapa===3){
-
-estado.textContent="D → A";
-
-calorTexto.textContent="Q = 0";
-
-fonte.innerHTML=
-"🚫 Sem troca de calor";
-
-fonte.style.background=
-"#555";
-
-textoMovimento.textContent=
-"COMPRESSÃO";
-
-setaMovimento.textContent=
-"↑";
-
-nomeEtapa.textContent=
-"D → A — Compressão adiabática";
-
-descricaoEtapa.innerHTML=
-"O gás continua sendo comprimido sem trocar calor. "
-+"O trabalho realizado sobre o gás aumenta sua energia interna "
-+"e sua temperatura retorna à temperatura da fonte quente.";
-
-}
-
-desenhar();
-
-}
-
-
-/* ======================================
-   SLIDER
-====================================== */
+/* =========================
+   CONTROLE
+========================= */
 
 controle.addEventListener(
-"input",
-atualizar
+    "input",
+    atualizar
 );
 
-
-/* ======================================
-   ARRASTAR PISTÃO
-====================================== */
-
-let arrastando=false;
-
-pistao.addEventListener(
-"pointerdown",
-e=>{
-
-arrastando=true;
-
-pistao.setPointerCapture(
-e.pointerId
-);
-
-}
-);
-
-document.addEventListener(
-"pointerup",
-()=>{
-
-arrastando=false;
-
-}
-);
-
-document.addEventListener(
-"pointermove",
-e=>{
-
-if(!arrastando)
-return;
-
-const cilindro =
-document.getElementById("cilindro");
-
-const rect =
-cilindro.getBoundingClientRect();
-
-let y =
-e.clientY-rect.top;
-
-y =
-Math.max(
-90,
-Math.min(280,y)
-);
-
-
-/*
-O pistão possui duas posições possíveis
-para o mesmo volume em partes diferentes
-do ciclo.
-
-Para deixar a interação intuitiva,
-o movimento vertical altera o volume
-mantendo a direção atual do ciclo.
-*/
-
-let V =
-2+
-(y-90)/190*3.5;
-
-let atual =
-Number(controle.value);
-
-let etapa =
-Math.floor(atual/100);
-
-let inicioV;
-let fimV;
-
-if(etapa===0){
-inicioV=A.V;
-fimV=B.V;
-}
-
-else if(etapa===1){
-inicioV=B.V;
-fimV=C.V;
-}
-
-else if(etapa===2){
-inicioV=C.V;
-fimV=D.V;
-}
-
-else{
-inicioV=D.V;
-fimV=A.V;
-}
-
-
-let t =
-(V-inicioV)/
-(fimV-inicioV);
-
-t =
-Math.max(
-0,
-Math.min(1,t)
-);
-
-controle.value =
-etapa*100+
-t*100;
-
-atualizar();
-
-}
-);
-
-
-/* ======================================
-   PARTÍCULAS
-====================================== */
-
-function criarParticulas(){
-
-const recipiente =
-document.getElementById(
-"particulas"
-);
-
-for(let i=0;i<35;i++){
-
-const p =
-document.createElement("div");
-
-p.className=
-"particula";
-
-p.style.left =
-Math.random()*95+"%";
-
-p.style.top =
-Math.random()*90+"%";
-
-recipiente.appendChild(p);
-
-}
-
-}
-
-criarParticulas();
-
-
-/* ======================================
-   ANIMAÇÃO DAS PARTÍCULAS
-====================================== */
-
-function animarParticulas(){
-
-document
-.querySelectorAll(".particula")
-.forEach(p=>{
-
-let x =
-parseFloat(p.style.left);
-
-let y =
-parseFloat(p.style.top);
-
-x +=
-(Math.random()-.5)*1.5;
-
-y +=
-(Math.random()-.5)*2;
-
-x =
-Math.max(2,Math.min(96,x));
-
-y =
-Math.max(2,Math.min(94,y));
-
-p.style.left=x+"%";
-p.style.top=y+"%";
-
-});
-
-requestAnimationFrame(
-animarParticulas
-);
-
-}
-
-animarParticulas();
-
-
-/* ======================================
-   CICLO AUTOMÁTICO
-====================================== */
+/* =========================
+   ANIMAÇÃO
+========================= */
 
 let timer=null;
 
 function iniciarAnimacao(){
 
-if(timer)
-return;
+    if(timer) return;
 
-timer =
-setInterval(()=>{
+    timer=setInterval(()=>{
 
-let v =
-Number(controle.value);
+        let v=
+            Number(controle.value);
 
-v+=1;
+        v++;
 
-if(v>400)
-v=0;
+        if(v>400)
+            v=0;
 
-controle.value=v;
+        controle.value=v;
 
-atualizar();
+        atualizar();
 
-},35);
-
+    },35);
 }
-
 
 function pausarAnimacao(){
 
-clearInterval(timer);
-timer=null;
+    clearInterval(timer);
 
+    timer=null;
 }
-
 
 function reiniciar(){
 
-pausarAnimacao();
+    pausarAnimacao();
 
-controle.value=0;
+    controle.value=0;
 
-atualizar();
-
+    atualizar();
 }
 
+/* =========================
+   RESPONSIVIDADE
+========================= */
 
-/* iniciar */
+function ajustarCanvas(){
+
+    const rect=
+        canvas.getBoundingClientRect();
+
+    canvas.width=
+        rect.width*
+        devicePixelRatio;
+
+    canvas.height=
+        rect.height*
+        devicePixelRatio;
+
+    ctx.setTransform(
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
+    );
+
+    desenhar();
+}
+
+window.addEventListener(
+    "resize",
+    ajustarCanvas
+);
 
 ajustarCanvas();
 atualizar();
-
 </script>
-
-</body>
-</html>
