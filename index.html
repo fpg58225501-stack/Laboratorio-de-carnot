@@ -3,11 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Laboratório de Carnot</title>
 
@@ -18,795 +14,434 @@ content="width=device-width, initial-scale=1.0"
 }
 
 body{
-
     margin:0;
-
-    font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
+    font-family:Arial, Helvetica, sans-serif;
     background:#f3f5f7;
-
     color:#222;
 }
 
-/* =========================
-   CABEÇALHO
-========================= */
-
 header{
-
     background:#7b1113;
-
     color:white;
-
     text-align:center;
-
     padding:18px;
-
-    box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.22);
+    box-shadow:0 3px 12px rgba(0,0,0,.2);
 }
 
 header h1{
-
     margin:0;
-
     font-size:32px;
-
-    letter-spacing:.5px;
 }
 
 .autor{
-
     margin-top:6px;
-
     font-size:14px;
-
-    opacity:.92;
 }
 
-/* =========================
-   CONTAINER
-========================= */
-
 .container{
-
     width:95%;
-
     max-width:1300px;
-
     margin:25px auto;
 }
 
 .laboratorio{
-
     display:grid;
-
-    grid-template-columns:
-    1fr 1.3fr;
-
+    grid-template-columns:1fr 1.35fr;
     gap:24px;
 }
 
 .card{
-
     background:white;
-
     border-radius:15px;
-
     padding:20px;
-
-    box-shadow:
-    0 4px 16px
-    rgba(0,0,0,.12);
+    box-shadow:0 4px 16px rgba(0,0,0,.12);
 }
 
 .card h2{
-
     margin-top:0;
-
     text-align:center;
-
     color:#7b1113;
 }
 
-/* =========================
+/* =======================
    PISTÃO
-========================= */
+======================= */
 
 .area-pistao{
-
     height:450px;
-
     position:relative;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 }
 
 .cilindro{
-
     width:230px;
-
     height:360px;
-
     border-left:6px solid #555;
-
     border-right:6px solid #555;
-
     border-bottom:6px solid #555;
-
     position:relative;
-
     background:#fafafa;
-
     overflow:hidden;
-
-    border-radius:
-    0 0 12px 12px;
+    border-radius:0 0 12px 12px;
 }
-
-/* gás acima do pistão */
 
 .gas{
-
     position:absolute;
-
     top:0;
-
     left:0;
-
     right:0;
-
-    height:90px;
-
-    background:
-    linear-gradient(
-    rgba(255,120,60,.85),
-    rgba(255,205,80,.55)
+    height:80px;
+    background:linear-gradient(
+        rgba(255,120,60,.85),
+        rgba(255,210,80,.5)
     );
-
-    transition:
-    background .2s;
-}
-
-.particulas{
-
-    position:absolute;
-
-    inset:0;
 }
 
 .particula{
-
     width:7px;
-
     height:7px;
-
     background:#a8181b;
-
     border-radius:50%;
-
     position:absolute;
 }
 
-/* =========================
-   PISTÃO MÓVEL
-========================= */
-
 .pistao{
-
     position:absolute;
-
     width:218px;
-
     height:28px;
-
     left:0;
-
-    top:90px;
-
-    background:
-    linear-gradient(
-    #aaa,
-    #555
-    );
-
+    top:80px;
+    background:linear-gradient(#aaa,#555);
     cursor:ns-resize;
-
     z-index:5;
-
-    box-shadow:
-    0 2px 4px
-    rgba(0,0,0,.3);
 }
 
 .haste{
-
     position:absolute;
-
     width:24px;
-
     height:125px;
-
     background:#777;
-
     left:97px;
-
     top:28px;
 }
 
 .alca{
-
     position:absolute;
-
     width:90px;
-
     height:24px;
-
     left:-33px;
-
     top:100px;
-
     background:#555;
-
     border-radius:10px;
 }
 
-/* =========================
-   FONTE
-========================= */
-
 .fonte{
-
     position:absolute;
-
     top:-8px;
-
     left:50%;
-
-    transform:
-    translateX(-50%);
-
-    padding:
-    8px 16px;
-
+    transform:translateX(-50%);
+    padding:8px 16px;
     color:white;
-
     background:#d9362b;
-
     border-radius:10px;
-
     font-weight:bold;
-
     white-space:nowrap;
-
     z-index:10;
 }
 
-/* =========================
-   INDICADOR
-========================= */
-
 .movimento{
-
     position:absolute;
-
     right:-125px;
-
     top:145px;
-
     width:110px;
-
     text-align:center;
-
     font-weight:bold;
 }
 
 .movimento .seta{
-
     font-size:52px;
-
-    line-height:1;
 }
 
-/* =========================
-   CANVAS
-========================= */
+/* =======================
+   GRÁFICO
+======================= */
 
 canvas{
-
     width:100%;
-
     height:450px;
-
     display:block;
 }
 
-/* =========================
+.legenda{
+    margin-top:10px;
+    text-align:center;
+    font-size:14px;
+    color:#555;
+}
+
+.linha-vermelha{
+    display:inline-block;
+    width:30px;
+    border-top:4px solid #d43b38;
+    margin:0 5px 3px 15px;
+}
+
+.linha-azul{
+    display:inline-block;
+    width:30px;
+    border-top:4px solid #3557b7;
+    margin:0 5px 3px 15px;
+}
+
+/* =======================
    DADOS
-========================= */
+======================= */
 
 .dados{
-
     margin-top:25px;
-
     display:grid;
-
-    grid-template-columns:
-    repeat(5,1fr);
-
+    grid-template-columns:repeat(5,1fr);
     gap:12px;
 }
 
 .dado{
-
     background:white;
-
     border-radius:12px;
-
     padding:15px 8px;
-
     text-align:center;
-
-    box-shadow:
-    0 2px 8px
-    rgba(0,0,0,.1);
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 .dado .titulo{
-
     font-size:13px;
-
     color:#666;
 }
 
 .dado .valor{
-
     margin-top:6px;
-
     font-size:19px;
-
     font-weight:bold;
-
     color:#7b1113;
 }
 
-/* =========================
-   DESCRIÇÃO
-========================= */
-
 .etapa{
-
     margin-top:20px;
-
     background:white;
-
     border-radius:12px;
-
-    border-left:
-    7px solid #7b1113;
-
+    border-left:7px solid #7b1113;
     padding:18px;
-
-    box-shadow:
-    0 2px 9px
-    rgba(0,0,0,.1);
+    box-shadow:0 2px 9px rgba(0,0,0,.1);
 }
 
 .etapa h3{
-
     margin-top:0;
-
     color:#7b1113;
 }
 
-/* =========================
-   CONTROLES
-========================= */
-
 .controles{
-
     margin-top:20px;
-
     background:white;
-
     border-radius:12px;
-
     padding:18px;
-
-    box-shadow:
-    0 2px 9px
-    rgba(0,0,0,.1);
-}
-
-.controles label{
-
-    font-weight:bold;
+    box-shadow:0 2px 9px rgba(0,0,0,.1);
 }
 
 input[type=range]{
-
     width:100%;
-
     margin-top:12px;
 }
 
 .botoes{
-
     text-align:center;
-
     margin-top:15px;
 }
 
 button{
-
     border:none;
-
     background:#7b1113;
-
     color:white;
-
-    padding:
-    11px 20px;
-
+    padding:11px 20px;
     margin:4px;
-
     border-radius:7px;
-
     font-weight:bold;
-
     cursor:pointer;
 }
 
 button:hover{
-
     background:#a1171b;
 }
-
-/* =========================
-   LEGENDA
-========================= */
-
-.legenda{
-
-    margin-top:12px;
-
-    text-align:center;
-
-    font-size:14px;
-
-    color:#555;
-}
-
-.vermelho{
-
-    display:inline-block;
-
-    width:25px;
-
-    border-top:
-    4px solid #d43b38;
-
-    margin:
-    0 5px 3px 15px;
-}
-
-.azul{
-
-    display:inline-block;
-
-    width:25px;
-
-    border-top:
-    4px solid #3557b7;
-
-    margin:
-    0 5px 3px 15px;
-}
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:850px){
 
     .laboratorio{
-
         grid-template-columns:1fr;
     }
 
     .dados{
-
-        grid-template-columns:
-        repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     header h1{
-
         font-size:24px;
     }
-
 }
 
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<h1>LABORATÓRIO DE CARNOT</h1>
-
-<div class="autor">
-Desenvolvido por Fabrizio Porfirio
-</div>
-
+    <h1>LABORATÓRIO DE CARNOT</h1>
+    <div class="autor">
+        Desenvolvido por Fabrizio Porfirio
+    </div>
 </header>
 
 <div class="container">
 
 <div class="laboratorio">
 
-<!-- =======================================
-     PISTÃO
-======================================= -->
+<div class="card">
+
+    <h2>Máquina Térmica</h2>
+
+    <div class="area-pistao">
+
+        <div>
+
+            <div class="fonte" id="fonte">
+                🔥 Fonte quente
+            </div>
+
+            <div class="cilindro" id="cilindro">
+
+                <div class="gas" id="gas">
+                    <div id="particulas"></div>
+                </div>
+
+                <div class="pistao" id="pistao">
+
+                    <div class="haste">
+                        <div class="alca"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="movimento">
+
+                <div id="textoMovimento">
+                    EXPANSÃO
+                </div>
+
+                <div class="seta" id="setaMovimento">
+                    ↓
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <p style="text-align:center;color:#666;">
+        Arraste o pistão ou utilize o controle abaixo.
+    </p>
+
+</div>
 
 <div class="card">
 
-<h2>Máquina Térmica</h2>
+    <h2>Diagrama P × V</h2>
 
-<div class="area-pistao">
+    <canvas id="grafico"></canvas>
 
-<div>
+    <div class="legenda">
+        <span class="linha-vermelha"></span>
+        Isotérmica
 
-<div
-class="fonte"
-id="fonte"
->
-🔥 Fonte quente
-</div>
-
-<div
-class="cilindro"
-id="cilindro"
->
-
-<div
-class="gas"
-id="gas"
->
-
-<div
-class="particulas"
-id="particulas"
-></div>
-
-</div>
-
-<div
-class="pistao"
-id="pistao"
->
-
-<div class="haste">
-
-<div class="alca">
-</div>
+        <span class="linha-azul"></span>
+        Adiabática
+    </div>
 
 </div>
 
 </div>
-
-</div>
-
-<div class="movimento">
-
-<div
-id="textoMovimento"
->
-EXPANSÃO
-</div>
-
-<div
-class="seta"
-id="setaMovimento"
->
-↓
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<p
-style="
-text-align:center;
-color:#666;
-"
->
-Arraste o pistão ou utilize o controle abaixo.
-</p>
-
-</div>
-
-<!-- =======================================
-     GRÁFICO
-======================================= -->
-
-<div class="card">
-
-<h2>Diagrama P × V</h2>
-
-<canvas id="grafico">
-</canvas>
-
-<div class="legenda">
-
-<span class="vermelho"></span>
-Isotérmica
-
-<span class="azul"></span>
-Adiabática
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =======================================
-     DADOS
-======================================= -->
 
 <div class="dados">
 
-<div class="dado">
+    <div class="dado">
+        <div class="titulo">Etapa</div>
+        <div class="valor" id="estado">A → B</div>
+    </div>
 
-<div class="titulo">
-Etapa
-</div>
+    <div class="dado">
+        <div class="titulo">Volume</div>
+        <div class="valor" id="volume">2.00 L</div>
+    </div>
 
-<div
-class="valor"
-id="estado"
->
-A → B
-</div>
+    <div class="dado">
+        <div class="titulo">Pressão</div>
+        <div class="valor" id="pressao">4.20 atm</div>
+    </div>
 
-</div>
+    <div class="dado">
+        <div class="titulo">Temperatura</div>
+        <div class="valor" id="temperatura">500 K</div>
+    </div>
 
-<div class="dado">
-
-<div class="titulo">
-Volume
-</div>
-
-<div
-class="valor"
-id="volume"
->
-2.00 L
-</div>
+    <div class="dado">
+        <div class="titulo">Calor</div>
+        <div class="valor" id="calor">+Q</div>
+    </div>
 
 </div>
-
-<div class="dado">
-
-<div class="titulo">
-Pressão
-</div>
-
-<div
-class="valor"
-id="pressao"
->
-4.20 atm
-</div>
-
-</div>
-
-<div class="dado">
-
-<div class="titulo">
-Temperatura
-</div>
-
-<div
-class="valor"
-id="temperatura"
->
-500 K
-</div>
-
-</div>
-
-<div class="dado">
-
-<div class="titulo">
-Calor
-</div>
-
-<div
-class="valor"
-id="calor"
->
-+Q
-</div>
-
-</div>
-
-</div>
-
-<!-- =======================================
-     EXPLICAÇÃO
-======================================= -->
 
 <div class="etapa">
 
-<h3
-id="nomeEtapa"
->
-A → B — Expansão isotérmica
-</h3>
+    <h3 id="nomeEtapa">
+        A → B — Expansão isotérmica
+    </h3>
 
-<div
-id="descricaoEtapa"
->
-O gás recebe calor da fonte quente,
-expande e mantém sua temperatura constante.
-</div>
+    <div id="descricaoEtapa">
+        O gás recebe calor da fonte quente e se expande mantendo a temperatura constante.
+    </div>
 
 </div>
-
-<!-- =======================================
-     CONTROLE
-======================================= -->
 
 <div class="controles">
 
-<label>
-Percorrer o ciclo de Carnot
-</label>
+    <label>
+        Percorrer o ciclo de Carnot
+    </label>
 
-<input
-type="range"
-id="controle"
-min="0"
-max="400"
-value="0"
->
+    <input
+        type="range"
+        id="controle"
+        min="0"
+        max="400"
+        value="0"
+    >
 
-<div class="botoes">
+    <div class="botoes">
 
-<button
-onclick="iniciarAnimacao()"
->
-▶ Iniciar ciclo
-</button>
+        <button onclick="iniciarAnimacao()">
+            ▶ Iniciar ciclo
+        </button>
 
-<button
-onclick="pausarAnimacao()"
->
-⏸ Pausar
-</button>
+        <button onclick="pausarAnimacao()">
+            ⏸ Pausar
+        </button>
 
-<button
-onclick="reiniciar()"
->
-↻ Reiniciar
-</button>
+        <button onclick="reiniciar()">
+            ↻ Reiniciar
+        </button>
 
-</div>
+    </div>
 
 </div>
 
@@ -814,330 +449,273 @@ onclick="reiniciar()"
 
 <script>
 
-/* ======================================
+/* ============================
    ELEMENTOS
-====================================== */
+============================ */
 
 const canvas =
-document.getElementById(
-"grafico"
-);
+document.getElementById("grafico");
 
 const ctx =
-canvas.getContext(
-"2d"
-);
+canvas.getContext("2d");
 
 const controle =
-document.getElementById(
-"controle"
-);
+document.getElementById("controle");
 
 const pistao =
-document.getElementById(
-"pistao"
-);
+document.getElementById("pistao");
 
 const gas =
-document.getElementById(
-"gas"
-);
+document.getElementById("gas");
 
 const fonte =
-document.getElementById(
-"fonte"
-);
+document.getElementById("fonte");
 
 const estado =
-document.getElementById(
-"estado"
-);
+document.getElementById("estado");
 
 const volumeTexto =
-document.getElementById(
-"volume"
-);
+document.getElementById("volume");
 
 const pressaoTexto =
-document.getElementById(
-"pressao"
-);
+document.getElementById("pressao");
 
 const temperaturaTexto =
-document.getElementById(
-"temperatura"
-);
+document.getElementById("temperatura");
 
 const calorTexto =
-document.getElementById(
-"calor"
-);
+document.getElementById("calor");
 
 const nomeEtapa =
-document.getElementById(
-"nomeEtapa"
-);
+document.getElementById("nomeEtapa");
 
 const descricaoEtapa =
-document.getElementById(
-"descricaoEtapa"
-);
+document.getElementById("descricaoEtapa");
 
 const textoMovimento =
-document.getElementById(
-"textoMovimento"
-);
+document.getElementById("textoMovimento");
 
 const setaMovimento =
-document.getElementById(
-"setaMovimento"
-);
+document.getElementById("setaMovimento");
 
-/* ======================================
+/* ============================
    ESTADOS DO CICLO
-====================================== */
 
-const A = {
-    V:2.0,
-    P:4.2
-};
-
-const B = {
-    V:4.3,
-    P:1.95
-};
-
-const C = {
-    V:5.6,
-    P:0.80
-};
-
-const D = {
-    V:2.85,
-    P:1.57
-};
-
-/* calor específico */
+   Construídos para reproduzir
+   a geometria do gráfico do livro
+============================ */
 
 const gamma = 1.4;
-
-/* temperaturas */
 
 const TQ = 500;
 const TF = 300;
 
-/* ======================================
-   INTERPOLAÇÃO
-====================================== */
+/*
+Escolha de VA e VB
+para a isotérmica quente.
+*/
 
-function lerp(
-a,
-b,
-t
-){
+const VA = 2.0;
+const VB = 4.6;
 
-    return
-    a+
-    (b-a)*t;
+/*
+PA escolhido.
+PB vem de PV constante.
+*/
 
-}
+const PA = 4.2;
 
-/* ======================================
-   PONTO NO CICLO
-====================================== */
+const PB =
+PA * VA / VB;
 
-function pontoCiclo(
-progresso
-){
+/*
+Para garantir fechamento,
+usamos a relação adiabática.
+
+T V^(gamma-1) = constante
+*/
+
+const fatorAdiabatico =
+Math.pow(
+    TQ / TF,
+    1 / (gamma - 1)
+);
+
+/*
+BC é expansão adiabática:
+VC = VB × fator
+*/
+
+const VC =
+VB * fatorAdiabatico;
+
+/*
+DA também é adiabática:
+VD = VA × fator
+*/
+
+const VD =
+VA * fatorAdiabatico;
+
+/*
+Na isotérmica fria,
+PC × VC = PD × VD
+*/
+
+const PC =
+PB *
+Math.pow(
+    VB / VC,
+    gamma
+);
+
+const PD =
+PC * VC / VD;
+
+const A = {
+    V:VA,
+    P:PA
+};
+
+const B = {
+    V:VB,
+    P:PB
+};
+
+const C = {
+    V:VC,
+    P:PC
+};
+
+const D = {
+    V:VD,
+    P:PD
+};
+
+/* ============================
+   FUNÇÃO DO CICLO
+============================ */
+
+function pontoCiclo(progresso){
 
     let etapa =
-    Math.floor(
-    progresso/100
-    );
+    Math.floor(progresso/100);
 
     let t =
-    (
-    progresso%100
-    )/100;
+    (progresso%100)/100;
 
-    if(
-    progresso>=400
-    ){
-
+    if(progresso>=400){
         etapa=3;
-
         t=1;
-
     }
 
-    /* =====================
-       A → B
-       expansão isotérmica
-    ====================== */
+    /* A → B
+       isotérmica quente */
 
-    if(
-    etapa===0
-    ){
+    if(etapa===0){
 
         const V =
-        A.V+
-        (
-        B.V-A.V
-        )*t;
-
-        const K =
-        A.P*A.V;
+        A.V +
+        (B.V-A.V)*t;
 
         const P =
-        K/V;
+        A.P*A.V/V;
 
         return{
-
-            V:V,
-
-            P:P,
-
+            V,
+            P,
             T:TQ,
-
             etapa:0
         };
-
     }
 
-    /* =====================
-       B → C
-       expansão adiabática
-    ====================== */
+    /* B → C
+       expansão adiabática */
 
-    if(
-    etapa===1
-    ){
+    if(etapa===1){
 
         const V =
-        B.V+
-        (
-        C.V-B.V
-        )*t;
+        B.V +
+        (C.V-B.V)*t;
 
         const K =
-        B.P*
-        Math.pow(
-        B.V,
-        gamma
-        );
+        B.P *
+        Math.pow(B.V,gamma);
 
         const P =
-        K/
-        Math.pow(
-        V,
-        gamma
-        );
+        K /
+        Math.pow(V,gamma);
 
         const T =
-        TQ-
-        (
-        TQ-TF
-        )*t;
+        TQ *
+        Math.pow(
+            B.V/V,
+            gamma-1
+        );
 
         return{
-
-            V:V,
-
-            P:P,
-
-            T:T,
-
+            V,
+            P,
+            T,
             etapa:1
         };
-
     }
 
-    /* =====================
-       C → D
-       compressão isotérmica
-    ====================== */
+    /* C → D
+       isotérmica fria */
 
-    if(
-    etapa===2
-    ){
+    if(etapa===2){
 
         const V =
-        C.V+
-        (
-        D.V-C.V
-        )*t;
-
-        const K =
-        C.P*C.V;
+        C.V +
+        (D.V-C.V)*t;
 
         const P =
-        K/V;
+        C.P*C.V/V;
 
         return{
-
-            V:V,
-
-            P:P,
-
+            V,
+            P,
             T:TF,
-
             etapa:2
         };
-
     }
 
-    /* =====================
-       D → A
-       compressão adiabática
-    ====================== */
+    /* D → A
+       compressão adiabática */
 
     const V =
-    D.V+
-    (
-    A.V-D.V
-    )*t;
+    D.V +
+    (A.V-D.V)*t;
 
     const K =
-    D.P*
-    Math.pow(
-    D.V,
-    gamma
-    );
+    D.P *
+    Math.pow(D.V,gamma);
 
     const P =
-    K/
-    Math.pow(
-    V,
-    gamma
-    );
+    K /
+    Math.pow(V,gamma);
 
     const T =
-    TF+
-    (
-    TQ-TF
-    )*t;
+    TF *
+    Math.pow(
+        D.V/V,
+        gamma-1
+    );
 
     return{
-
-        V:V,
-
-        P:P,
-
-        T:T,
-
+        V,
+        P,
+        T,
         etapa:3
     };
-
 }
 
-/* ======================================
-   COORDENADAS DO GRÁFICO
-====================================== */
+/* ============================
+   ESCALA DO GRÁFICO
+============================ */
 
-function coord(
-V,
-P
-){
+function coord(V,P){
 
     const largura =
     canvas.clientWidth;
@@ -1145,67 +723,112 @@ P
     const altura =
     canvas.clientHeight;
 
-    const esquerda=80;
-    const direita=40;
-    const topo=30;
-    const baixo=70;
+    const esquerda=105;
+    const direita=55;
+    const topo=25;
+    const baixo=75;
 
-    const Vmin=1.5;
-    const Vmax=6.2;
+    const Vmin =
+    VA*0.75;
 
-    const Pmin=0;
-    const Pmax=4.7;
+    const Vmax =
+    VC*1.18;
 
-    const x =
-    esquerda+
-    (
-    V-Vmin
-    )/
-    (
-    Vmax-Vmin
-    )*
-    (
-    largura-
-    esquerda-
-    direita
-    );
+    const Pmin = 0;
 
-    const y =
-    altura-
-    baixo-
-    (
-    P-Pmin
-    )/
-    (
-    Pmax-Pmin
-    )*
-    (
-    altura-
-    topo-
-    baixo
-    );
+    const Pmax =
+    PA*1.12;
 
     return{
-        x:x,
-        y:y
-    };
 
+        x:
+        esquerda+
+        (V-Vmin)/
+        (Vmax-Vmin)*
+        (largura-esquerda-direita),
+
+        y:
+        altura-baixo-
+        (P-Pmin)/
+        (Pmax-Pmin)*
+        (altura-topo-baixo)
+
+    };
 }
 
-/* ======================================
-   DESENHAR SETA SOBRE A CURVA
-====================================== */
+/* ============================
+   CURVAS
+============================ */
 
-function desenharSeta(
-p1,
-p2,
+function desenharCurva(
+inicio,
+fim,
 cor
 ){
 
-    const angulo =
+    ctx.strokeStyle=cor;
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    for(
+        let i=inicio;
+        i<=fim;
+        i++
+    ){
+
+        const p =
+        pontoCiclo(i);
+
+        const c =
+        coord(p.V,p.P);
+
+        if(i===inicio){
+            ctx.moveTo(c.x,c.y);
+        }
+        else{
+            ctx.lineTo(c.x,c.y);
+        }
+    }
+
+    ctx.stroke();
+}
+
+/* ============================
+   SETAS
+============================ */
+
+function setaNaCurva(
+inicio,
+fim,
+cor
+){
+
+    const i1 =
+    inicio +
+    Math.floor(
+        (fim-inicio)*0.52
+    );
+
+    const i2 =
+    i1+3;
+
+    const p1 =
+    pontoCiclo(i1);
+
+    const p2 =
+    pontoCiclo(i2);
+
+    const c1 =
+    coord(p1.V,p1.P);
+
+    const c2 =
+    coord(p2.V,p2.P);
+
+    const ang =
     Math.atan2(
-    p2.y-p1.y,
-    p2.x-p1.x
+        c2.y-c1.y,
+        c2.x-c1.x
     );
 
     ctx.fillStyle=cor;
@@ -1213,145 +836,40 @@ cor
     ctx.beginPath();
 
     ctx.moveTo(
-    p2.x,
-    p2.y
+        c2.x,
+        c2.y
     );
 
     ctx.lineTo(
-
-    p2.x-
-    12*
-    Math.cos(
-    angulo-
-    Math.PI/6
-    ),
-
-    p2.y-
-    12*
-    Math.sin(
-    angulo-
-    Math.PI/6
-    )
-
+        c2.x-
+        14*Math.cos(
+            ang-Math.PI/6
+        ),
+        c2.y-
+        14*Math.sin(
+            ang-Math.PI/6
+        )
     );
 
     ctx.lineTo(
-
-    p2.x-
-    12*
-    Math.cos(
-    angulo+
-    Math.PI/6
-    ),
-
-    p2.y-
-    12*
-    Math.sin(
-    angulo+
-    Math.PI/6
-    )
-
+        c2.x-
+        14*Math.cos(
+            ang+Math.PI/6
+        ),
+        c2.y-
+        14*Math.sin(
+            ang+Math.PI/6
+        )
     );
 
     ctx.closePath();
 
     ctx.fill();
-
 }
 
-/* ======================================
-   DESENHAR TRECHO
-====================================== */
-
-function desenharTrecho(
-inicio,
-fim,
-cor
-){
-
-    ctx.strokeStyle=cor;
-
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    let anterior=null;
-
-    for(
-    let i=inicio;
-    i<=fim;
-    i++
-    ){
-
-        const p =
-        pontoCiclo(i);
-
-        const c =
-        coord(
-        p.V,
-        p.P
-        );
-
-        if(
-        i===inicio
-        ){
-
-            ctx.moveTo(
-            c.x,
-            c.y
-            );
-
-        }
-
-        else{
-
-            ctx.lineTo(
-            c.x,
-            c.y
-            );
-
-        }
-
-        if(
-        i===Math.floor(
-        (
-        inicio+fim
-        )/2
-        )
-        ){
-
-            anterior =
-            coord(
-            pontoCiclo(i-2).V,
-            pontoCiclo(i-2).P
-            );
-
-            var meio=c;
-
-        }
-
-    }
-
-    ctx.stroke();
-
-    if(
-    anterior &&
-    meio
-    ){
-
-        desenharSeta(
-        anterior,
-        meio,
-        cor
-        );
-
-    }
-
-}
-
-/* ======================================
+/* ============================
    DESENHAR GRÁFICO
-====================================== */
+============================ */
 
 function desenhar(){
 
@@ -1362,28 +880,30 @@ function desenhar(){
     canvas.clientHeight;
 
     ctx.clearRect(
-    0,
-    0,
-    largura,
-    altura
+        0,
+        0,
+        largura,
+        altura
     );
 
-    /* eixos */
+    const eixoX=80;
+    const eixoY=altura-55;
+
+    /* EIXOS */
 
     ctx.strokeStyle="#111";
-
-    ctx.lineWidth=2;
+    ctx.lineWidth=2.5;
 
     ctx.beginPath();
 
     ctx.moveTo(
-    65,
-    altura-55
+        eixoX,
+        eixoY
     );
 
     ctx.lineTo(
-    65,
-    25
+        eixoX,
+        18
     );
 
     ctx.stroke();
@@ -1391,39 +911,39 @@ function desenhar(){
     ctx.beginPath();
 
     ctx.moveTo(
-    65,
-    altura-55
+        eixoX,
+        eixoY
     );
 
     ctx.lineTo(
-    largura-20,
-    altura-55
+        largura-25,
+        eixoY
     );
 
     ctx.stroke();
 
-    /* setas dos eixos */
+    /* setas eixo */
 
     ctx.beginPath();
 
     ctx.moveTo(
-    65,
-    25
+        eixoX,
+        18
     );
 
     ctx.lineTo(
-    59,
-    38
+        eixoX-8,
+        34
     );
 
     ctx.moveTo(
-    65,
-    25
+        eixoX,
+        18
     );
 
     ctx.lineTo(
-    71,
-    38
+        eixoX+8,
+        34
     );
 
     ctx.stroke();
@@ -1431,101 +951,71 @@ function desenhar(){
     ctx.beginPath();
 
     ctx.moveTo(
-    largura-20,
-    altura-55
+        largura-25,
+        eixoY
     );
 
     ctx.lineTo(
-    largura-34,
-    altura-61
+        largura-41,
+        eixoY-8
     );
 
     ctx.moveTo(
-    largura-20,
-    altura-55
+        largura-25,
+        eixoY
     );
 
     ctx.lineTo(
-    largura-34,
-    altura-49
+        largura-41,
+        eixoY+8
     );
 
     ctx.stroke();
-
-    /* títulos dos eixos */
 
     ctx.fillStyle="#111";
 
-    ctx.font=
-    "bold 17px Arial";
+    ctx.font =
+    "bold 22px Arial";
 
     ctx.fillText(
-    "P",
-    37,
-    31
+        "P",
+        eixoX-30,
+        27
     );
 
     ctx.fillText(
-    "V",
-    largura-30,
-    altura-25
+        "V",
+        largura-20,
+        eixoY+28
     );
 
-    /* pontos principais */
+    const pontos = {
+        A:coord(A.V,A.P),
+        B:coord(B.V,B.P),
+        C:coord(C.V,C.P),
+        D:coord(D.V,D.P)
+    };
 
-    const pa =
-    coord(
-    A.V,
-    A.P
-    );
+    /* LINHAS PONTILHADAS */
 
-    const pb =
-    coord(
-    B.V,
-    B.P
-    );
+    ctx.setLineDash([3,3]);
 
-    const pc =
-    coord(
-    C.V,
-    C.P
-    );
-
-    const pd =
-    coord(
-    D.V,
-    D.P
-    );
-
-    /* linhas pontilhadas */
-
-    ctx.strokeStyle="#888";
-
+    ctx.strokeStyle="#777";
     ctx.lineWidth=1;
 
-    ctx.setLineDash(
-    [4,4]
-    );
-
-    [
-    pa,
-    pb,
-    pc,
-    pd
-    ]
-    .forEach(
-    p=>{
+    Object.values(pontos)
+    .forEach(p=>{
 
         ctx.beginPath();
 
         ctx.moveTo(
-        65,
-        p.y
+            eixoX,
+            p.y
         );
 
         ctx.lineTo(
-        p.x,
-        p.y
+            p.x,
+            p.y
         );
 
         ctx.stroke();
@@ -1533,79 +1023,95 @@ function desenhar(){
         ctx.beginPath();
 
         ctx.moveTo(
-        p.x,
-        p.y
+            p.x,
+            p.y
         );
 
         ctx.lineTo(
-        p.x,
-        altura-55
+            p.x,
+            eixoY
         );
 
         ctx.stroke();
-
     });
 
     ctx.setLineDash([]);
 
-    /* curvas */
+    /* CURVAS */
 
-    desenharTrecho(
-    0,
-    100,
-    "#d43b38"
+    desenharCurva(
+        0,
+        100,
+        "#d43b38"
     );
 
-    desenharTrecho(
-    100,
-    200,
-    "#3557b7"
+    desenharCurva(
+        100,
+        200,
+        "#344fb0"
     );
 
-    desenharTrecho(
-    200,
-    300,
-    "#d43b38"
+    desenharCurva(
+        200,
+        300,
+        "#d43b38"
     );
 
-    desenharTrecho(
-    300,
-    400,
-    "#3557b7"
+    desenharCurva(
+        300,
+        400,
+        "#344fb0"
     );
 
-    /* pontos ABCD */
+    /* SETAS NAS CURVAS */
+
+    setaNaCurva(
+        0,
+        100,
+        "#d43b38"
+    );
+
+    setaNaCurva(
+        100,
+        200,
+        "#344fb0"
+    );
+
+    setaNaCurva(
+        200,
+        300,
+        "#d43b38"
+    );
+
+    setaNaCurva(
+        300,
+        400,
+        "#344fb0"
+    );
+
+    /* PONTOS */
 
     const lista=[
-    ["A",A],
-    ["B",B],
-    ["C",C],
-    ["D",D]
+        ["A",A],
+        ["B",B],
+        ["C",C],
+        ["D",D]
     ];
 
     lista.forEach(
-    item=>{
+    ([nome,p])=>{
 
-        const nome=
-        item[0];
-
-        const p=
-        item[1];
-
-        const c=
-        coord(
-        p.V,
-        p.P
-        );
+        const c =
+        coord(p.V,p.P);
 
         ctx.beginPath();
 
         ctx.arc(
-        c.x,
-        c.y,
-        5,
-        0,
-        Math.PI*2
+            c.x,
+            c.y,
+            6,
+            0,
+            Math.PI*2
         );
 
         ctx.fillStyle="#111";
@@ -1613,183 +1119,193 @@ function desenhar(){
         ctx.fill();
 
         ctx.font=
-        "bold 15px Arial";
+        "bold 18px Arial";
 
-        ctx.fillText(
-        nome,
-        c.x-6,
-        c.y-12
-        );
+        if(nome==="A"){
+
+            ctx.fillText(
+                nome,
+                c.x-10,
+                c.y-15
+            );
+
+        }
+
+        else if(nome==="B"){
+
+            ctx.fillText(
+                nome,
+                c.x+8,
+                c.y-8
+            );
+
+        }
+
+        else if(nome==="C"){
+
+            ctx.fillText(
+                nome,
+                c.x+10,
+                c.y+15
+            );
+
+        }
+
+        else{
+
+            ctx.fillText(
+                nome,
+                c.x-22,
+                c.y+25
+            );
+
+        }
 
     });
 
-    /* valores de pressão */
+    /* PRESSÕES */
 
-    ctx.fillStyle="#444";
-
-    ctx.font=
-    "13px Arial";
+    ctx.fillStyle="#111";
+    ctx.font="17px Arial";
 
     ctx.fillText(
-    "Pₐ",
-    35,
-    pa.y+4
+        "Pₐ",
+        eixoX-45,
+        pontos.A.y+5
     );
 
     ctx.fillText(
-    "Pᵦ",
-    35,
-    pb.y+4
+        "Pᵦ",
+        eixoX-45,
+        pontos.B.y+5
     );
 
     ctx.fillText(
-    "Pᴅ",
-    35,
-    pd.y+4
+        "Pᴅ",
+        eixoX-45,
+        pontos.D.y+5
     );
 
     ctx.fillText(
-    "Pᴄ",
-    35,
-    pc.y+4
+        "Pᴄ",
+        eixoX-45,
+        pontos.C.y+5
     );
 
-    /* valores de volume */
+    /* VOLUMES */
 
     ctx.fillText(
-    "Vₐ",
-    pa.x-10,
-    altura-32
-    );
-
-    ctx.fillText(
-    "Vᴅ",
-    pd.x-10,
-    altura-32
+        "Vₐ",
+        pontos.A.x-13,
+        eixoY+28
     );
 
     ctx.fillText(
-    "Vᵦ",
-    pb.x-10,
-    altura-32
+        "Vᴅ",
+        pontos.D.x-13,
+        eixoY+28
     );
 
     ctx.fillText(
-    "Vᴄ",
-    pc.x-10,
-    altura-32
+        "Vᵦ",
+        pontos.B.x-13,
+        eixoY+28
+    );
+
+    ctx.fillText(
+        "Vᴄ",
+        pontos.C.x-13,
+        eixoY+28
     );
 
     /* TQ */
 
-    ctx.fillStyle=
-    "#d43b38";
-
-    ctx.font=
-    "italic bold 17px Arial";
-
-    const pontoTQ =
-    pontoCiclo(50);
-
     const tq =
     coord(
-    pontoTQ.V,
-    pontoTQ.P
+        pontoCiclo(48).V,
+        pontoCiclo(48).P
     );
 
+    ctx.fillStyle="#222";
+    ctx.font=
+    "21px Arial";
+
     ctx.fillText(
-    "TQ",
-    tq.x+18,
-    tq.y+5
+        "TQ",
+        tq.x+20,
+        tq.y-12
     );
 
     /* TF */
 
-    const pontoTF =
-    pontoCiclo(250);
-
     const tf =
     coord(
-    pontoTF.V,
-    pontoTF.P
+        pontoCiclo(250).V,
+        pontoCiclo(250).P
     );
 
     ctx.fillText(
-    "TF",
-    tf.x-10,
-    tf.y-14
+        "TF",
+        tf.x-12,
+        tf.y+35
     );
 
-    /* ponto móvel */
+    /* PONTO MÓVEL */
 
     const atual =
     pontoCiclo(
-    Number(
-    controle.value
-    )
+        Number(controle.value)
     );
 
-    const atualCoord =
+    const cm =
     coord(
-    atual.V,
-    atual.P
+        atual.V,
+        atual.P
     );
 
     ctx.beginPath();
 
     ctx.arc(
-    atualCoord.x,
-    atualCoord.y,
-    9,
-    0,
-    Math.PI*2
+        cm.x,
+        cm.y,
+        7,
+        0,
+        Math.PI*2
     );
 
     ctx.fillStyle=
-    "#ff9800";
+    "#ff9d00";
 
     ctx.fill();
 
-    ctx.strokeStyle=
-    "#111";
-
-    ctx.lineWidth=2;
-
+    ctx.strokeStyle="#111";
+    ctx.lineWidth=1.5;
     ctx.stroke();
-
 }
 
-/* ======================================
-   ATUALIZAR PISTÃO
-====================================== */
+/* ============================
+   PISTÃO
+============================ */
 
-function atualizarPistao(
-p
-){
+function atualizarPistao(p){
 
-    const Vmin=
+    const min=
     A.V;
 
-    const Vmax=
+    const max=
     C.V;
 
     const topo=
     80;
 
     const fundo=
-    280;
+    285;
 
     let pos=
     topo+
-    (
-    p.V-Vmin
-    )/
-    (
-    Vmax-Vmin
-    )*
-    (
-    fundo-topo
-    );
+    (p.V-min)/
+    (max-min)*
+    (fundo-topo);
 
     pistao.style.top=
     pos+"px";
@@ -1797,72 +1313,52 @@ p
     gas.style.height=
     pos+"px";
 
-    /* temperatura altera cor */
-
     const intensidade=
-    (
-    p.T-TF
-    )/
-    (
-    TQ-TF
-    );
+    (p.T-TF)/
+    (TQ-TF);
 
     const r=
     Math.round(
-    190+
-    65*
-    intensidade
+        190+
+        65*intensidade
     );
 
     const g=
     Math.round(
-    210-
-    90*
-    intensidade
+        210-
+        90*intensidade
     );
 
     gas.style.background=
     `linear-gradient(
-    rgba(${r},${g},60,.85),
-    rgba(255,220,90,.45)
+        rgba(${r},${g},60,.85),
+        rgba(255,220,90,.45)
     )`;
-
 }
 
-/* ======================================
-   INFORMAÇÕES
-====================================== */
+/* ============================
+   ATUALIZAR TEXTO
+============================ */
 
 function atualizar(){
 
     const p=
     pontoCiclo(
-    Number(
-    controle.value
-    )
+        Number(controle.value)
     );
 
     atualizarPistao(p);
 
     volumeTexto.textContent=
-    p.V.toFixed(2)+
-    " L";
+    p.V.toFixed(2)+" L";
 
     pressaoTexto.textContent=
-    p.P.toFixed(2)+
-    " atm";
+    p.P.toFixed(2)+" atm";
 
     temperaturaTexto.textContent=
-    Math.round(
-    p.T
-    )+
-    " K";
+    Math.round(p.T)+" K";
 
-    /* A → B */
-
-    if(
-    p.etapa===0
-    ){
+    if(p.etapa===0){
 
         estado.textContent=
         "A → B";
@@ -1886,17 +1382,10 @@ function atualizar(){
         "A → B — Expansão isotérmica";
 
         descricaoEtapa.innerHTML=
-        "O gás recebe calor da <b>fonte quente</b> e se expande. "
-        +
-        "O volume aumenta, o pistão <b>desce</b> e a temperatura permanece constante.";
-
+        "O gás recebe calor da <b>fonte quente</b>, aumenta de volume e o pistão <b>desce</b>. A temperatura permanece constante.";
     }
 
-    /* B → C */
-
-    if(
-    p.etapa===1
-    ){
+    if(p.etapa===1){
 
         estado.textContent=
         "B → C";
@@ -1920,17 +1409,10 @@ function atualizar(){
         "B → C — Expansão adiabática";
 
         descricaoEtapa.innerHTML=
-        "O gás continua se expandindo, mas agora <b>não troca calor</b>. "
-        +
-        "Ele realiza trabalho e sua temperatura diminui de TQ para TF.";
-
+        "O gás continua se expandindo sem trocar calor. O pistão continua <b>descendo</b> e a temperatura diminui de TQ para TF.";
     }
 
-    /* C → D */
-
-    if(
-    p.etapa===2
-    ){
+    if(p.etapa===2){
 
         estado.textContent=
         "C → D";
@@ -1954,17 +1436,10 @@ function atualizar(){
         "C → D — Compressão isotérmica";
 
         descricaoEtapa.innerHTML=
-        "O gás é comprimido enquanto está em contato com a <b>fonte fria</b>. "
-        +
-        "O volume diminui, o pistão <b>sobe</b> e o gás libera calor.";
-
+        "O gás é comprimido e libera calor para a fonte fria. O volume diminui e o pistão <b>sobe</b>.";
     }
 
-    /* D → A */
-
-    if(
-    p.etapa===3
-    ){
+    if(p.etapa===3){
 
         estado.textContent=
         "D → A";
@@ -1988,28 +1463,24 @@ function atualizar(){
         "D → A — Compressão adiabática";
 
         descricaoEtapa.innerHTML=
-        "O gás continua sendo comprimido sem trocar calor. "
-        +
-        "Sua temperatura aumenta de TF para TQ até retornar ao estado inicial A.";
-
+        "O gás é comprimido sem trocar calor. O pistão continua <b>subindo</b> e a temperatura aumenta até retornar a TQ.";
     }
 
     desenhar();
-
 }
 
-/* ======================================
+/* ============================
    SLIDER
-====================================== */
+============================ */
 
 controle.addEventListener(
-"input",
-atualizar
+    "input",
+    atualizar
 );
 
-/* ======================================
-   ARRASTAR O PISTÃO
-====================================== */
+/* ============================
+   ARRASTAR PISTÃO
+============================ */
 
 let arrastando=false;
 
@@ -2020,11 +1491,10 @@ function(e){
     arrastando=true;
 
     pistao.setPointerCapture(
-    e.pointerId
+        e.pointerId
     );
 
-}
-);
+});
 
 document.addEventListener(
 "pointerup",
@@ -2032,21 +1502,18 @@ function(){
 
     arrastando=false;
 
-}
-);
+});
 
 document.addEventListener(
 "pointermove",
 function(e){
 
-    if(
-    !arrastando
-    )
-    return;
+    if(!arrastando)
+        return;
 
     const cilindro=
     document.getElementById(
-    "cilindro"
+        "cilindro"
     );
 
     const rect=
@@ -2058,68 +1525,48 @@ function(e){
 
     y=
     Math.max(
-    80,
-    Math.min(
-    280,
-    y
-    )
+        80,
+        Math.min(
+            285,
+            y
+        )
     );
 
     const V=
     A.V+
-    (
-    y-80
-    )/
-    200*
-    (
-    C.V-A.V
-    );
-
-    const atual=
-    Number(
-    controle.value
-    );
+    (y-80)/
+    (285-80)*
+    (C.V-A.V);
 
     let etapa=
     Math.floor(
-    atual/100
+        Number(controle.value)/100
     );
 
-    if(
-    etapa>3
-    )
-    etapa=3;
+    if(etapa>3)
+        etapa=3;
 
     let Vi;
     let Vf;
 
-    if(
-    etapa===0
-    ){
+    if(etapa===0){
 
         Vi=A.V;
         Vf=B.V;
 
     }
-
-    else if(
-    etapa===1
-    ){
+    else if(etapa===1){
 
         Vi=B.V;
         Vf=C.V;
 
     }
-
-    else if(
-    etapa===2
-    ){
+    else if(etapa===2){
 
         Vi=C.V;
         Vf=D.V;
 
     }
-
     else{
 
         Vi=D.V;
@@ -2128,140 +1575,114 @@ function(e){
     }
 
     let t=
-    (
-    V-Vi
-    )/
-    (
-    Vf-Vi
-    );
+    (V-Vi)/
+    (Vf-Vi);
 
     t=
     Math.max(
-    0,
-    Math.min(
-    1,
-    t
-    )
+        0,
+        Math.min(
+            1,
+            t
+        )
     );
 
     controle.value=
-    etapa*
-    100+
-    t*
-    100;
+    etapa*100+
+    t*100;
 
     atualizar();
 
-}
-);
+});
 
-/* ======================================
+/* ============================
    PARTÍCULAS
-====================================== */
+============================ */
 
 function criarParticulas(){
 
     const recipiente=
     document.getElementById(
-    "particulas"
+        "particulas"
     );
 
     for(
-    let i=0;
-    i<35;
-    i++
+        let i=0;
+        i<35;
+        i++
     ){
 
         const p=
         document.createElement(
-        "div"
+            "div"
         );
 
         p.className=
         "particula";
 
         p.style.left=
-        Math.random()*
-        95+
-        "%";
+        Math.random()*95+"%";
 
         p.style.top=
-        Math.random()*
-        90+
-        "%";
+        Math.random()*90+"%";
 
         recipiente.appendChild(p);
-
     }
-
 }
 
 criarParticulas();
 
-/* ======================================
-   MOVIMENTO DAS PARTÍCULAS
-====================================== */
+/* ============================
+   ANIMAÇÃO DAS PARTÍCULAS
+============================ */
 
 function animarParticulas(){
 
     document
     .querySelectorAll(
-    ".particula"
+        ".particula"
     )
     .forEach(
     function(p){
 
         let x=
         parseFloat(
-        p.style.left
+            p.style.left
         );
 
         let y=
         parseFloat(
-        p.style.top
+            p.style.top
         );
 
-        const temperatura=
+        const temp=
         pontoCiclo(
-        Number(
-        controle.value
-        )
+            Number(
+                controle.value
+            )
         ).T;
 
         const fator=
-        temperatura/
-        300;
+        temp/300;
 
         x+=
-        (
-        Math.random()-.5
-        )*
-        1.4*
-        fator;
+        (Math.random()-.5)*
+        1.3*fator;
 
         y+=
-        (
-        Math.random()-.5
-        )*
-        1.8*
-        fator;
+        (Math.random()-.5)*
+        1.7*fator;
 
         x=
         Math.max(
-        2,
-        Math.min(
-        96,
-        x
-        )
+            2,
+            Math.min(96,x)
         );
 
         y=
         Math.max(
-        2,
-        Math.min(
-        94,
-        y
-        )
+            2,
+            Math.min(94,y)
         );
 
         p.style.left=
@@ -2269,29 +1690,25 @@ function animarParticulas(){
 
         p.style.top=
         y+"%";
-
     });
 
     requestAnimationFrame(
-    animarParticulas
+        animarParticulas
     );
-
 }
 
 animarParticulas();
 
-/* ======================================
+/* ============================
    ANIMAÇÃO DO CICLO
-====================================== */
+============================ */
 
 let timer=null;
 
 function iniciarAnimacao(){
 
-    if(
-    timer
-    )
-    return;
+    if(timer)
+        return;
 
     timer=
     setInterval(
@@ -2299,38 +1716,27 @@ function iniciarAnimacao(){
 
         let valor=
         Number(
-        controle.value
+            controle.value
         );
 
-        valor+=1;
+        valor++;
 
-        if(
-        valor>400
-        ){
-
+        if(valor>400)
             valor=0;
-
-        }
 
         controle.value=
         valor;
 
         atualizar();
 
-    },
-    35
-    );
-
+    },35);
 }
 
 function pausarAnimacao(){
 
-    clearInterval(
-    timer
-    );
+    clearInterval(timer);
 
     timer=null;
-
 }
 
 function reiniciar(){
@@ -2340,12 +1746,11 @@ function reiniciar(){
     controle.value=0;
 
     atualizar();
-
 }
 
-/* ======================================
-   AJUSTAR CANVAS
-====================================== */
+/* ============================
+   CANVAS
+============================ */
 
 function ajustarCanvas(){
 
@@ -2361,32 +1766,26 @@ function ajustarCanvas(){
     devicePixelRatio;
 
     ctx.setTransform(
-    devicePixelRatio,
-    0,
-    0,
-    devicePixelRatio,
-    0,
-    0
+        devicePixelRatio,
+        0,
+        0,
+        devicePixelRatio,
+        0,
+        0
     );
 
     desenhar();
-
 }
 
 window.addEventListener(
-"resize",
-ajustarCanvas
+    "resize",
+    ajustarCanvas
 );
 
-/* inicializar */
-
 ajustarCanvas();
-
 atualizar();
 
 </script>
 
 </body>
-
 </html>
-```
